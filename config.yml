@@ -13,6 +13,12 @@ spawns:
     pitch: -180
     yaw: 0
 
+#Manage the red team flag settings:
+flag:
+  x: 0
+  y: 0
+  z: 0
+
 #Manage the database settings:
 database:
   host: "localhost"

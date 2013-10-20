@@ -1,6 +1,7 @@
 package com.mcprohosting.plugins.marcwar.entities;
 
 import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
+import com.mcprohosting.plugins.marcwar.utilities.UtilityMethods;
 import org.bukkit.Location;
 
 import java.util.HashMap;
@@ -10,11 +11,18 @@ public class Team {
 
 	String color;
 	Location spawn;
+	Location flag;
 	Map<String, Participant> players;
+	boolean capturedFlag;
 
 	public Team(String color) {
 		this.color = color;
 		this.players = new HashMap<String, Participant>();
+		this.capturedFlag = false;
+	}
+
+	public String getColor() {
+		return this.color;
 	}
 
 	public void setSpawn(Location location) {
@@ -23,6 +31,18 @@ public class Team {
 
 	public Location getSpawn() {
 		return this.spawn;
+	}
+
+	public void setFlag(Location location) {
+		if (color.equalsIgnoreCase("red")) {
+			this.flag = location;
+		}
+
+		UtilityMethods.addFlag(location);
+	}
+
+	public Location getFlag() {
+		return this.flag;
 	}
 
 	public Map<String, Participant> getPlayers() {
@@ -37,6 +57,10 @@ public class Team {
 	public void removePlayer(String name) {
 		this.players.remove(name);
 		TeamHandler.removePlayer(name);
+	}
+
+	public boolean capturedFlag() {
+		return capturedFlag;
 	}
 
 }

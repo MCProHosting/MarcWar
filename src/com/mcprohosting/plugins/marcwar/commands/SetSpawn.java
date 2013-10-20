@@ -17,7 +17,7 @@ public class SetSpawn implements CommandExecutor {
 		}
 
 		if (args.length == 1) {
-			if (!cs.hasPermission("kotl.setspawn")) {
+			if (!cs.hasPermission("marcwar.setspawn")) {
 				cs.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 				return true;
 			}

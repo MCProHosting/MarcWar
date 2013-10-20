@@ -34,6 +34,9 @@ public class TeamHandler {
 		ConfigurationSection spawnred = config.getConfigurationSection("spawnred");
 		red.setSpawn(new Location(Bukkit.getWorlds().get(0), spawnred.getDouble("x"), spawnred.getDouble("y"),
 				spawnred.getDouble("z"), new Float(spawnred.getDouble("yaw")), new Float(spawnred.getDouble("pitch"))));
+
+		ConfigurationSection flag = MarcWar.getPlugin().getConfig().getConfigurationSection("flag");
+		red.setFlag(new Location(Bukkit.getWorlds().get(0), flag.getDouble("x"), flag.getDouble("y"), flag.getDouble("z")));
 	}
 
 	public static void setSpawnLocation(String color, Location location) {
@@ -49,6 +52,11 @@ public class TeamHandler {
 		}
 	}
 
+	public static void setFlagLocation(Location location) {
+		red.setFlag(location);
+		saveFlagToConfiguration(location);
+	}
+
 	public static void saveSpawnToConfiguration(String color, Location location) {
 		ConfigurationSection section = new YamlConfiguration();
 		section.set("x", location.getX());
@@ -58,6 +66,16 @@ public class TeamHandler {
 		section.set("pitch", location.getPitch());
 
 		MarcWar.getPlugin().getConfig().set("spawns.spawn" + color, section);
+		MarcWar.getPlugin().saveConfig();
+	}
+
+	public static void saveFlagToConfiguration(Location location) {
+		ConfigurationSection section = new YamlConfiguration();
+		section.set("x", location.getX());
+		section.set("y", location.getY());
+		section.set("z", location.getZ());
+
+		MarcWar.getPlugin().getConfig().set("flag", section);
 		MarcWar.getPlugin().saveConfig();
 	}
 
@@ -86,9 +104,8 @@ public class TeamHandler {
 				red.addPlayer(name, new Participant(name, "red"));
 				return red.getSpawn();
 			default:
-				break;
+				return null;
 		}
-		return null;
 	}
 
 	public static void addPlayer(String name, Team team) {
@@ -101,6 +118,17 @@ public class TeamHandler {
 
 	public static Team getPlayerTeam(String name) {
 		return players.get(name);
+	}
+
+	public static Team getTeam(String color) {
+		switch(color.toLowerCase()) {
+			case "blue":
+				return blue;
+			case "red":
+				return red;
+			default:
+				return null;
+		}
 	}
 
 }
