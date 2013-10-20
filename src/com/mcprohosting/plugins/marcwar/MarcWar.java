@@ -40,7 +40,7 @@ public class MarcWar extends JavaPlugin {
 		registerCommands();
 
 		// Register lilypad connection
-		//connect = plugin.getServer().getServicesManager().getRegistration(Connect.class).getProvider();
+		connect = plugin.getServer().getServicesManager().getRegistration(Connect.class).getProvider();
 	}
 
 	public void onDisable() {
