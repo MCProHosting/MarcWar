@@ -10,8 +10,9 @@ public class FlagReset implements Runnable {
 	@Override
 	public void run() {
 		if (flag != null) {
-			Bukkit.broadcastMessage("The flag has been reset");
+			Bukkit.broadcastMessage(FontFormat.BLUE + "The flag has been reset");
 			flag.remove();
+			flag = null;
 			UtilityMethods.addFlag(TeamHandler.getTeam("red").getFlag());
 		}
 	}

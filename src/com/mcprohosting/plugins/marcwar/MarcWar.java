@@ -14,10 +14,14 @@ public class MarcWar extends JavaPlugin {
 
 	private static Plugin plugin;
 	private static Connect connect;
+	private static String gameProgress;
 
 	public void onEnable() {
 		// Allow this to be accessed statically
 		plugin = this;
+
+		// Set game progress
+		gameProgress = "Starting";
 
 		// Initialize teams
 		TeamHandler.inititializeTeams();
@@ -58,6 +62,14 @@ public class MarcWar extends JavaPlugin {
 		getCommand("setspawn").setExecutor(new SetSpawn());
 		getCommand("setflag").setExecutor(new SetFlag());
 		getCommand("setcapture").setExecutor(new SetCapture());
+	}
+
+	public static String getGameProgress() {
+		return gameProgress;
+	}
+
+	public static void setGameProgress(String status) {
+		gameProgress = status;
 	}
 
 }
