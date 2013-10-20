@@ -2,8 +2,11 @@ package com.mcprohosting.plugins.marcwar.entities;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class Participant {
 
@@ -36,7 +39,8 @@ public class Participant {
 	}
 
 	public void setInventory() {
-		PlayerInventory inventory = Bukkit.getPlayer(this.getName()).getInventory();
+		Player player = Bukkit.getPlayer(name);
+		PlayerInventory inventory = player.getInventory();
 		inventory.clear();
 		inventory.addItem(new ItemStack(Material.IRON_AXE));
 		inventory.addItem(new ItemStack(Material.DIAMOND_SWORD));
@@ -48,6 +52,7 @@ public class Participant {
 
 		if (team.equalsIgnoreCase("blue")) {
 			inventory.setHelmet(new ItemStack(Material.WOOL, 1, (short) 11));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60, 2));
 		} else {
 			inventory.setHelmet(new ItemStack(Material.WOOL, 1, (short) 14));
 		}
