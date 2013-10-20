@@ -7,4 +7,14 @@ main: com.mcprohosting.plugins.marcwar.MarcWar
 database: false
 
 commands:
+  setspawn:
+     description: Set one of the spawn locations for the teams to the current location of the player.
+     usage: /<command> <color>
 permissions:
+   marcwar.*:
+     description: Gives access to all MarcWar commands
+     children:
+       marcwar.configure: true
+   marcwar.configure:
+     description: Allow player to set the spawn for each team
+     default: op
