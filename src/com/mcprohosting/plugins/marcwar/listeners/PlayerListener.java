@@ -43,7 +43,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDeath(PlayerDeathEvent event) {
-		UtilityMethods.redirectToServer("1-marcwars-lobby", event.getEntity());
+		UtilityMethods.redirectToServer("lobby", event.getEntity());
 	}
 
 	@EventHandler(priority =  EventPriority.NORMAL)

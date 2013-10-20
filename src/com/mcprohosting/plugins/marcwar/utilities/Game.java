@@ -65,7 +65,7 @@ public class Game implements Runnable {
 					gameOver = !gameOver;
 				} else if (now.getTime() - lastMsg.getTime() > 30000L) {
 					for (Player player : Bukkit.getOnlinePlayers()) {
-						UtilityMethods.redirectToServer("1-marcwars-lobby", player);
+						UtilityMethods.redirectToServer("lobby", player);
 					}
 
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
