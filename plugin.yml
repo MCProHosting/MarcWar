@@ -13,6 +13,9 @@ commands:
   setflag:
     descriptions: Set the red team flag to the block a player is looking at.
     usage: /<command>
+  setcapture:
+    descriptions: Set the blue team capture point to the 1 block above the block a player is looking at.
+    usage: /<command>
 permissions:
   marcwar.*:
     description: Gives access to all MarcWar commands
@@ -22,6 +25,9 @@ permissions:
   marcwar.setspawn:
     description: Allow player to set the spawn for each team
     default: op
-  marcware.setflag:
+  marcwar.setflag:
     description: Allow player to set the flag for red team
+    default: op
+  marcwar.setcapture:
+    description: Allow player to set the capture for blue team
     default: op

@@ -1,5 +1,6 @@
 package com.mcprohosting.plugins.marcwar;
 
+import com.mcprohosting.plugins.marcwar.commands.SetCapture;
 import com.mcprohosting.plugins.marcwar.commands.SetFlag;
 import com.mcprohosting.plugins.marcwar.commands.SetSpawn;
 import com.mcprohosting.plugins.marcwar.listeners.PlayerListener;
@@ -56,6 +57,7 @@ public class MarcWar extends JavaPlugin {
 	public void registerCommands() {
 		getCommand("setspawn").setExecutor(new SetSpawn());
 		getCommand("setflag").setExecutor(new SetFlag());
+		getCommand("setcapture").setExecutor(new SetCapture());
 	}
 
 }

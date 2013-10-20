@@ -34,11 +34,11 @@ public class Team {
 	}
 
 	public void setFlag(Location location) {
-		if (color.equalsIgnoreCase("red")) {
-			this.flag = location;
-		}
+		this.flag = location;
 
-		UtilityMethods.addFlag(location);
+		if (color.equalsIgnoreCase("red")) {
+			UtilityMethods.addFlag(location);
+		}
 	}
 
 	public Location getFlag() {

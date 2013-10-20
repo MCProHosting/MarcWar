@@ -37,6 +37,9 @@ public class TeamHandler {
 
 		ConfigurationSection flag = MarcWar.getPlugin().getConfig().getConfigurationSection("flag");
 		red.setFlag(new Location(Bukkit.getWorlds().get(0), flag.getDouble("x"), flag.getDouble("y"), flag.getDouble("z")));
+
+		ConfigurationSection capture = MarcWar.getPlugin().getConfig().getConfigurationSection("capture");
+		blue.setFlag(new Location(Bukkit.getWorlds().get(0), capture.getDouble("x"), capture.getDouble("y"), capture.getDouble("z")));
 	}
 
 	public static void setSpawnLocation(String color, Location location) {
@@ -55,6 +58,11 @@ public class TeamHandler {
 	public static void setFlagLocation(Location location) {
 		red.setFlag(location);
 		saveFlagToConfiguration(location);
+	}
+
+	public static void setCaptureLocation(Location location) {
+		blue.setFlag(location);
+		saveCaptureToConfiguration(location);
 	}
 
 	public static void saveSpawnToConfiguration(String color, Location location) {
@@ -76,6 +84,16 @@ public class TeamHandler {
 		section.set("z", location.getZ());
 
 		MarcWar.getPlugin().getConfig().set("flag", section);
+		MarcWar.getPlugin().saveConfig();
+	}
+
+	public static void saveCaptureToConfiguration(Location location) {
+		ConfigurationSection section = new YamlConfiguration();
+		section.set("x", location.getX());
+		section.set("y", location.getY());
+		section.set("z", location.getZ());
+
+		MarcWar.getPlugin().getConfig().set("capture", section);
 		MarcWar.getPlugin().saveConfig();
 	}
 

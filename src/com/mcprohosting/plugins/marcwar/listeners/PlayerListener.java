@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -99,6 +100,27 @@ public class PlayerListener implements Listener {
 					", z: " + event.getPlayer().getLocation().getBlockZ() +"!");
 					FlagReset.setFlag(event.getItemDrop());
 					Bukkit.getScheduler().runTaskLater(MarcWar.getPlugin(), new FlagReset(), 20 * 60);
+				}
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Team team = TeamHandler.getPlayerTeam(event.getPlayer().getName());
+
+		ItemStack stack = event.getItemInHand();
+		ItemMeta meta = stack.getItemMeta();
+
+		MarcWar.getPlugin().getLogger().info(event.getBlock().getLocation().toString());
+		MarcWar.getPlugin().getLogger().info(team.getFlag().toString());
+		if (meta.hasDisplayName()) {
+			MarcWar.getPlugin().getLogger().info(meta.getDisplayName());
+			if (meta.getDisplayName().equalsIgnoreCase(FontFormat.stripColor(meta.getDisplayName()))) {
+				if (event.getBlockPlaced().getLocation().getBlockX() == team.getFlag().getBlockX() &&
+						event.getBlockPlaced().getLocation().getBlockY() == team.getFlag().getBlockY() &&
+						event.getBlockPlaced().getLocation().getBlockZ() == team.getFlag().getBlockZ()) {
+					Bukkit.broadcastMessage("The flag has been captured. Blue team wins!");
 				}
 			}
 		}

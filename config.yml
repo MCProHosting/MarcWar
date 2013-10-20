@@ -19,6 +19,12 @@ flag:
   y: 0
   z: 0
 
+#Manage the blue team capture settings:
+capture:
+  x: 0
+  y: 0
+  z: 0
+
 #Manage the database settings:
 database:
   host: "localhost"
