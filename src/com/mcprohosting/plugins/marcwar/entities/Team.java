@@ -1,6 +1,6 @@
 package com.mcprohosting.plugins.marcwar.entities;
 
-import com.mcprohosting.plugins.marcwar.entities.Participant;
+import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
 import org.bukkit.Location;
 
 import java.util.HashMap;
@@ -31,6 +31,12 @@ public class Team {
 
 	public void addPlayer(String name, Participant player) {
 		this.players.put(name, player);
+		TeamHandler.addPlayer(name, this);
+	}
+
+	public void removPlayer(String name) {
+		this.players.remove(name);
+		TeamHandler.removePlayer(name);
 	}
 
 }

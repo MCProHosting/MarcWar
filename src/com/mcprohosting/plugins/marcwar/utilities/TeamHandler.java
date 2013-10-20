@@ -8,16 +8,20 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class TeamHandler {
 
 	private static Team blue;
 	private static Team red;
+	private static Map<String, Team> players;
 
 	public static void inititializeTeams() {
 		blue = new Team("blue");
 		red = new Team("red");
+		players = new HashMap<String, Team>();
 	}
 
 	public static void setupSpawnsFromConfiguration() {
@@ -85,6 +89,18 @@ public class TeamHandler {
 				break;
 		}
 		return null;
+	}
+
+	public static void addPlayer(String name, Team team) {
+		players.put(name, team);
+	}
+
+	public static void removePlayer(String name) {
+		players.remove(name);
+	}
+
+	public static Team getPlayerTeam(String name) {
+		return players.get(name);
 	}
 
 }
