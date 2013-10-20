@@ -1,16 +1,17 @@
 #Manage the team spawn settings:
-spawn1:
-  x: 0
-  y: 0
-  z: 0
-  pitch: -180
-  yaw: 0
-spawn2:
-  x: 0
-  y: 0
-  z: 0
-  pitch: -180
-  yaw: 0
+spawns:
+  spawnblue:
+    x: 0
+    y: 0
+    z: 0
+    pitch: -180
+    yaw: 0
+  spawnred:
+    x: 0
+    y: 0
+    z: 0
+    pitch: -180
+    yaw: 0
 
 #Manage the database settings:
 database:
