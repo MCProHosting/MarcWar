@@ -39,9 +39,12 @@ public class Participant {
 		PlayerInventory inventory = Bukkit.getPlayer(this.getName()).getInventory();
 		inventory.clear();
 		inventory.addItem(new ItemStack(Material.IRON_AXE));
-		inventory.setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
-		inventory.setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+		inventory.addItem(new ItemStack(Material.DIAMOND_SWORD));
+		inventory.addItem(new ItemStack(Material.BREAD));
+
 		inventory.setBoots(new ItemStack(Material.IRON_BOOTS));
+		inventory.setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+		inventory.setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
 
 		if (team.equalsIgnoreCase("blue")) {
 			inventory.setHelmet(new ItemStack(Material.WOOL, 1, (short) 11));
