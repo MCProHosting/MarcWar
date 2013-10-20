@@ -2,7 +2,7 @@ package com.mcprohosting.plugins.marcwar.utilities;
 
 import com.mcprohosting.plugins.marcwar.MarcWar;
 import com.mcprohosting.plugins.marcwar.entities.Participant;
-import com.mcprohosting.plugins.marcwar.listeners.Team;
+import com.mcprohosting.plugins.marcwar.entities.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;

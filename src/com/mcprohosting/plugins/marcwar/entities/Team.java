@@ -1,4 +1,4 @@
-package com.mcprohosting.plugins.marcwar.listeners;
+package com.mcprohosting.plugins.marcwar.entities;
 
 import com.mcprohosting.plugins.marcwar.entities.Participant;
 import org.bukkit.Location;
