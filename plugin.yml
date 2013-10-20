@@ -1,0 +1,10 @@
+name: MarcWar
+version: 0.0.1
+description: A CTF Bukkit plugin for the Mindcrack Marathon event.
+author: Favorlock
+
+main: com.mcprohosting.plugins.marcwar.MarcWar
+database: false
+
+commands:
+permissions:

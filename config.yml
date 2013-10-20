@@ -1,0 +1,21 @@
+#Manage the team spawn settings:
+spawn1:
+  x: 0
+  y: 0
+  z: 0
+  pitch: -180
+  yaw: 0
+spawn2:
+  x: 0
+  y: 0
+  z: 0
+  pitch: -180
+  yaw: 0
+
+#Manage the database settings:
+database:
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "admin"
+  password: "1234"
