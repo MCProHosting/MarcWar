@@ -20,7 +20,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDeath(PlayerDeathEvent event) {
-		TeamHandler.getPlayerTeam(event.getEntity().getName()).removPlayer(event.getEntity().getName());
+		TeamHandler.getPlayerTeam(event.getEntity().getName()).removePlayer(event.getEntity().getName());
 		//UtilityMethods.redirectToServer("1-marcwars-lobby", event.getEntity());
 	}
 

@@ -34,7 +34,7 @@ public class Team {
 		TeamHandler.addPlayer(name, this);
 	}
 
-	public void removPlayer(String name) {
+	public void removePlayer(String name) {
 		this.players.remove(name);
 		TeamHandler.removePlayer(name);
 	}
