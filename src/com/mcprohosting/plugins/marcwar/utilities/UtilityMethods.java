@@ -11,7 +11,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
 
 public class UtilityMethods {
 
@@ -39,9 +44,18 @@ public class UtilityMethods {
 		Block block = location.getBlock();
 		block.setType(Material.WOOL);
 		block.setData((byte) 14);
-		FlagMeta meta = new FlagMeta();
-		meta.setFlag();
-		block.setMetadata("flag", meta);
+	}
+
+	public static void dropFlag(Location location) {
+		ItemStack flag = new ItemStack(Material.WOOL, 1, (byte)14);
+		ItemMeta meta = flag.getItemMeta();
+
+		meta.setDisplayName(ChatColor.GOLD + "Flag");
+		ArrayList<String> lore = new ArrayList<String>();
+
+		meta.setLore(lore);
+		flag.setItemMeta(meta);
+		Item item = location.getWorld().dropItem(location, flag);
 	}
 
 }
