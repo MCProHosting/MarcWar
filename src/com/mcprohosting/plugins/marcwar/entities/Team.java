@@ -1,5 +1,6 @@
 package com.mcprohosting.plugins.marcwar.entities;
 
+import com.mcprohosting.plugins.marcwar.MarcWar;
 import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
 import com.mcprohosting.plugins.marcwar.utilities.UtilityMethods;
 import org.bukkit.Location;
@@ -13,12 +14,11 @@ public class Team {
 	Location spawn;
 	Location flag;
 	Map<String, Participant> players;
-	boolean capturedFlag;
+	double maxPlayersOnTeam;
 
 	public Team(String color) {
 		this.color = color;
 		this.players = new HashMap<String, Participant>();
-		this.capturedFlag = false;
 	}
 
 	public String getColor() {
@@ -52,15 +52,23 @@ public class Team {
 	public void addPlayer(String name, Participant player) {
 		this.players.put(name, player);
 		TeamHandler.addPlayer(name, this);
+		maxPlayersOnTeam = maxPlayersOnTeam + 1.0;
 	}
 
 	public void removePlayer(String name) {
 		this.players.remove(name);
 		TeamHandler.removePlayer(name);
+
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			maxPlayersOnTeam = maxPlayersOnTeam - 1.0;
+		}
 	}
 
-	public boolean capturedFlag() {
-		return capturedFlag;
+	public boolean lossByKills() {
+		if ((players.size() / maxPlayersOnTeam) < 0.1) {
+			return true;
+		}
+		return false;
 	}
 
 }

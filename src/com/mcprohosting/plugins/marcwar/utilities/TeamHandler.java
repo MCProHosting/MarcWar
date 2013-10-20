@@ -17,6 +17,7 @@ public class TeamHandler {
 	private static Team blue;
 	private static Team red;
 	private static Map<String, Team> players;
+	private static Location lobby;
 
 	public static void inititializeTeams() {
 		blue = new Team("blue");
@@ -26,6 +27,10 @@ public class TeamHandler {
 
 	public static void setupSpawnsFromConfiguration() {
 		ConfigurationSection config = MarcWar.getPlugin().getConfig().getConfigurationSection("spawns");
+
+		ConfigurationSection spawnlobby = config.getConfigurationSection("lobby");
+		setLobbyLocation(new Location(Bukkit.getWorlds().get(0), spawnlobby.getDouble("x"), spawnlobby.getDouble("y"),
+				spawnlobby.getDouble("z"), new Float(spawnlobby.getDouble("yaw")), new Float(spawnlobby.getDouble("pitch"))));
 
 		ConfigurationSection spawnblue = config.getConfigurationSection("spawnblue");
 		blue.setSpawn(new Location(Bukkit.getWorlds().get(0), spawnblue.getDouble("x"), spawnblue.getDouble("y"),
@@ -55,6 +60,11 @@ public class TeamHandler {
 		}
 	}
 
+	public static void setLobbyLocation(Location location) {
+		lobby = location;
+		saveLobbyToConfiguration(location);
+	}
+
 	public static void setFlagLocation(Location location) {
 		red.setFlag(location);
 		saveFlagToConfiguration(location);
@@ -74,6 +84,18 @@ public class TeamHandler {
 		section.set("pitch", location.getPitch());
 
 		MarcWar.getPlugin().getConfig().set("spawns.spawn" + color, section);
+		MarcWar.getPlugin().saveConfig();
+	}
+
+	public static void saveLobbyToConfiguration(Location location) {
+		ConfigurationSection section = new YamlConfiguration();
+		section.set("x", location.getX());
+		section.set("y", location.getY());
+		section.set("z", location.getZ());
+		section.set("yaw", location.getYaw());
+		section.set("pitch", location.getPitch());
+
+		MarcWar.getPlugin().getConfig().set("spawns.lobby", section);
 		MarcWar.getPlugin().saveConfig();
 	}
 
@@ -104,11 +126,9 @@ public class TeamHandler {
 		if (bluePlayers == redPlayres) {
 			return assignRandom(name);
 		} else if (bluePlayers > redPlayres) {
-			red.addPlayer(name, new Participant(name, "red"));
-			return red.getSpawn();
+			return addRedPlayer(name);
 		} else {
-			blue.addPlayer(name, new Participant(name, "blue"));
-			return blue.getSpawn();
+			return addBluePlayer(name);
 		}
 	}
 
@@ -116,11 +136,9 @@ public class TeamHandler {
 		Random random = new Random();
 		switch (random.nextInt(2) + 1) {
 			case 1:
-				blue.addPlayer(name, new Participant(name, "blue"));
-				return blue.getSpawn();
+				return addBluePlayer(name);
 			case 2:
-				red.addPlayer(name, new Participant(name, "red"));
-				return red.getSpawn();
+				return addRedPlayer(name);
 			default:
 				return null;
 		}
@@ -147,6 +165,20 @@ public class TeamHandler {
 			default:
 				return null;
 		}
+	}
+
+	public static Location addRedPlayer(String name) {
+		red.addPlayer(name, new Participant(name, "red"));
+		return red.getSpawn();
+	}
+
+	public static Location addBluePlayer(String name) {
+		blue.addPlayer(name, new Participant(name, "blue"));
+		return blue.getSpawn();
+	}
+
+	public static Location getLobby() {
+		return lobby;
 	}
 
 }

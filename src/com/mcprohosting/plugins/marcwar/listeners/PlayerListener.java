@@ -31,19 +31,28 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onJoin(PlayerJoinEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("started")) {
+			event.getPlayer().kickPlayer("Game In Progress!");
+			return;
+		}
 		Location location = TeamHandler.assignTeam(event.getPlayer().getName());
 		if (!(location.getBlockY() == 0)) {
-			event.getPlayer().teleport(location);
+			event.getPlayer().teleport(TeamHandler.getLobby());
 		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDeath(PlayerDeathEvent event) {
-		//UtilityMethods.redirectToServer("1-marcwars-lobby", event.getEntity());
+		UtilityMethods.redirectToServer("1-marcwars-lobby", event.getEntity());
 	}
 
 	@EventHandler(priority =  EventPriority.NORMAL)
 	public void onBlockBreak(BlockBreakEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		Team playerTeam = TeamHandler.getPlayerTeam(event.getPlayer().getName());
 		Team red = TeamHandler.getTeam("red");
 
@@ -73,6 +82,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onInventoryPickup(PlayerPickupItemEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		Player player = event.getPlayer();
 		Team playerTeam = TeamHandler.getPlayerTeam(player.getName());
 
@@ -99,6 +113,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onInventoryDrop(PlayerDropItemEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		Player player = event.getPlayer();
 		Team playerTeam = TeamHandler.getPlayerTeam(player.getName());
 
@@ -122,6 +141,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPlace(BlockPlaceEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		Team team = TeamHandler.getPlayerTeam(event.getPlayer().getName());
 
 		ItemStack stack = event.getItemInHand();
@@ -141,6 +165,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onMobTarget(EntityTargetLivingEntityEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		if (event.getTarget() instanceof Player) {
 			Player player = (Player) event.getTarget();
 			if (TeamHandler.getPlayerTeam(player.getName()).getColor().equals("red")) {
@@ -151,6 +180,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDamageEvent(EntityDamageByEntityEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
 			Player damager = (Player) event.getDamager();
 			Player attacked = (Player) event.getEntity();
