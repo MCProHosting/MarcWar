@@ -47,7 +47,7 @@ public class TeamHandler {
 
 	public static void saveSpawnToConfiguration(String color, Location location) {
 		ConfigurationSection section = new YamlConfiguration();
-		section.set("x", location.getY());
+		section.set("x", location.getX());
 		section.set("y", location.getY());
 		section.set("z", location.getZ());
 		section.set("yaw", location.getYaw());
