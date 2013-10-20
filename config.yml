@@ -12,6 +12,12 @@ spawns:
     z: 0
     pitch: -180
     yaw: 0
+  lobby:
+    x: 0
+    y: 0
+    z: 0
+    pitch: -180
+    yaw: 0
 
 #Manage the red team flag settings:
 flag:

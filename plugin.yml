@@ -16,6 +16,9 @@ commands:
   setcapture:
     descriptions: Set the blue team capture point to the 1 block above the block a player is looking at.
     usage: /<command>
+  setlobby:
+    descriptions: Set the lobby
+    usage: /<command>
 permissions:
   marcwar.*:
     description: Gives access to all MarcWar commands
@@ -30,4 +33,7 @@ permissions:
     default: op
   marcwar.setcapture:
     description: Allow player to set the capture for blue team
+    default: op
+  marcwar.setlobby:
+    description: Allow player to set the lobby
     default: op
