@@ -7,7 +7,6 @@ import com.mcprohosting.plugins.marcwar.utilities.FontFormat;
 import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
 import com.mcprohosting.plugins.marcwar.utilities.UtilityMethods;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,10 +17,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,20 +26,33 @@ public class PlayerListener implements Listener {
 	private static FlagReset flagReset;
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onJoin(PlayerJoinEvent event) {
+	public void onLogin(PlayerLoginEvent event) {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("started")) {
-			event.getPlayer().kickPlayer("Game In Progress!");
-			return;
+			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Game In Progress");
 		}
-		Location location = TeamHandler.assignTeam(event.getPlayer().getName());
-		if (!(location.getBlockY() == 0)) {
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onJoin(PlayerJoinEvent event) {
+		TeamHandler.assignTeam(event.getPlayer().getName());
+		if (!(TeamHandler.getLobby().getBlockY() == 0)) {
+			MarcWar.getPlugin().getLogger().info("Teleporting player to lobby");
 			event.getPlayer().teleport(TeamHandler.getLobby());
 		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDeath(PlayerDeathEvent event) {
-		UtilityMethods.redirectToServer("lobby", event.getEntity());
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			event.getEntity().setHealth(10.0);
+			return;
+		}
+
+		if (MarcWar.getProxyEnabled()) {
+			UtilityMethods.redirectToServer("lobby", event.getEntity());
+		} else {
+			event.getEntity().kickPlayer("You have been eliminated from play!");
+		}
 	}
 
 	@EventHandler(priority =  EventPriority.NORMAL)
@@ -77,7 +86,9 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDisconnect(PlayerQuitEvent event) {
-		TeamHandler.getPlayerTeam(event.getPlayer().getName()).removePlayer(event.getPlayer().getName());
+		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()) != null) {
+			TeamHandler.getPlayerTeam(event.getPlayer().getName()).removePlayer(event.getPlayer().getName());
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -158,6 +169,7 @@ public class PlayerListener implements Listener {
 						event.getBlockPlaced().getLocation().getBlockZ() == team.getFlag().getBlockZ()) {
 					String message = FontFormat.BOLD + "The flag has been captured. Blue team wins!";
 					Bukkit.broadcastMessage(FontFormat.BLUE + message);
+					MarcWar.setGameProgress("gameover");
 				}
 			}
 		}

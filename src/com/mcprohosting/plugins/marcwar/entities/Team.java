@@ -65,7 +65,10 @@ public class Team {
 	}
 
 	public boolean lossByKills() {
-		if ((players.size() / maxPlayersOnTeam) < 0.1) {
+		if ((players.size() / maxPlayersOnTeam) < 0.1 && color.equalsIgnoreCase("blue")) {
+			return true;
+		}
+		if ((color.equalsIgnoreCase("red")) && players.size() == 0) {
 			return true;
 		}
 		return false;

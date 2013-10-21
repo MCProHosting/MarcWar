@@ -38,3 +38,7 @@ database:
   database: "minecraft"
   username: "admin"
   password: "1234"
+
+#Manage the proxy settings:
+proxy:
+  enabled: false

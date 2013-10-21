@@ -5,9 +5,12 @@ import com.mcprohosting.plugins.marcwar.commands.SetFlag;
 import com.mcprohosting.plugins.marcwar.commands.SetLobby;
 import com.mcprohosting.plugins.marcwar.commands.SetSpawn;
 import com.mcprohosting.plugins.marcwar.listeners.PlayerListener;
+import com.mcprohosting.plugins.marcwar.utilities.Game;
 import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
 import lilypad.client.connect.api.Connect;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +19,7 @@ public class MarcWar extends JavaPlugin {
 	private static Plugin plugin;
 	private static Connect connect;
 	private static String gameProgress;
+	private static boolean proxyEnabled;
 
 	public void onEnable() {
 		// Allow this to be accessed statically
@@ -39,8 +43,14 @@ public class MarcWar extends JavaPlugin {
 		// Register commands
 		registerCommands();
 
-		// Register lilypad connection
-		connect = plugin.getServer().getServicesManager().getRegistration(Connect.class).getProvider();
+		// Proxy Registration
+		setProxyEnabled();
+		if (proxyEnabled) {
+			connect = plugin.getServer().getServicesManager().getRegistration(Connect.class).getProvider();
+		}
+
+		// Start the game
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Game(), 20, 20);
 	}
 
 	public void onDisable() {
@@ -72,6 +82,24 @@ public class MarcWar extends JavaPlugin {
 
 	public static void setGameProgress(String status) {
 		gameProgress = status;
+	}
+
+	private void setProxyEnabled() {
+		saveProxyToConfig();
+		ConfigurationSection proxy = getConfig().getConfigurationSection("proxy");
+		proxyEnabled = proxy.getBoolean("enabled");
+	}
+
+	public void saveProxyToConfig() {
+		ConfigurationSection section = new YamlConfiguration();
+		section.set("enabled", getProxyEnabled());
+
+		MarcWar.getPlugin().getConfig().set("proxy", section);
+		MarcWar.getPlugin().saveConfig();
+	}
+
+	public static boolean getProxyEnabled() {
+		return proxyEnabled;
 	}
 
 }
