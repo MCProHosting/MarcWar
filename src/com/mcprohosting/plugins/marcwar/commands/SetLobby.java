@@ -27,7 +27,7 @@ public class SetLobby implements CommandExecutor {
 		}
 
 		Player player = (Player) cs;
-		TeamHandler.setSpawnLocation("lobby", player.getLocation());
+		TeamHandler.setLobbyLocation(player.getLocation());
 		player.sendMessage("Spawn point the for lobby has been set!");
 		return true;
 	}

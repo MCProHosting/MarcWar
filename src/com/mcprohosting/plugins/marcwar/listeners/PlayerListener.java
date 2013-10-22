@@ -35,7 +35,6 @@ public class PlayerListener implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		TeamHandler.assignTeam(event.getPlayer().getName());
 		if (!(TeamHandler.getLobby().getBlockY() == 0)) {
-			MarcWar.getPlugin().getLogger().info("Teleporting player to lobby");
 			event.getPlayer().teleport(TeamHandler.getLobby());
 		}
 	}
