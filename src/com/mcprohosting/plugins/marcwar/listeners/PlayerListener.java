@@ -52,7 +52,6 @@ public class PlayerListener implements Listener {
 			for (Player players : Bukkit.getOnlinePlayers()) {
 				players.hidePlayer(event.getEntity());
 			}
-			event.getEntity().setHealth(10.0);
 			event.getEntity().setAllowFlight(true);
 			event.getEntity().setFlying(true);
 			TeamHandler.getPlayerTeam(event.getEntity().getName()).setDead(event.getEntity().getName());
@@ -141,6 +140,8 @@ public class PlayerListener implements Listener {
 				} else {
 					message = FontFormat.BOLD + "The flag has been reclaimed by " + player.getName();
 					Bukkit.broadcastMessage(FontFormat.BLUE + message);
+					UtilityMethods.addFlag(TeamHandler.getTeam("red").getFlag());
+					event.getItem().remove();
 				}
 			}
 		}
@@ -276,6 +277,8 @@ public class PlayerListener implements Listener {
 					if (meta.getDisplayName().equalsIgnoreCase("flag")) {
 						return;
 					}
+				} else {
+					event.setCancelled(true);
 				}
 			}
 		}
@@ -304,6 +307,13 @@ public class PlayerListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
+		}
+
+		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
 		}
 	}
 }
