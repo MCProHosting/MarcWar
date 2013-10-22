@@ -218,8 +218,19 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onInventoryInteract(InventoryClickEvent event) {
-		if (event.getCurrentItem().getType().equals(Material.WOOL)) {
-			event.setCancelled(true);
+		if (event.getCurrentItem().getType() != null) {
+			ItemStack stack = event.getCurrentItem();
+			ItemMeta meta = stack.getItemMeta();
+
+			if (meta != null) {
+				if (meta.getDisplayName().equalsIgnoreCase("flag")) {
+					return;
+				}
+			}
+
+			if (event.getCurrentItem().getType().equals(Material.WOOL)) {
+				event.setCancelled(true);
+			}
 		}
 	}
 }
