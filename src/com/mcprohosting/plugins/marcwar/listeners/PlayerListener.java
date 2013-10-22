@@ -218,13 +218,14 @@ public class PlayerListener implements Listener {
 			ItemStack stack = event.getCurrentItem();
 			ItemMeta meta = stack.getItemMeta();
 
-			if (meta != null) {
-				if (meta.getDisplayName().equalsIgnoreCase("flag")) {
-					return;
-				}
-			}
-
 			if (event.getCurrentItem().getType().equals(Material.WOOL)) {
+				if (meta != null) {
+					if (meta.getDisplayName() != null) {
+						if (meta.getDisplayName().equalsIgnoreCase("flag")) {
+							return;
+						}
+					}
+				}
 				event.setCancelled(true);
 			}
 		}
