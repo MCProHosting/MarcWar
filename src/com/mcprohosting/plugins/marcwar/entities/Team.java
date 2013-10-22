@@ -58,8 +58,10 @@ public class Team {
 	}
 
 	public void removePlayer(String name) {
-		this.players.remove(name);
-		TeamHandler.removePlayer(name);
+		if (players.containsKey(name)) {
+			this.players.remove(name);
+			TeamHandler.removePlayer(name);
+		}
 
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
 			maxPlayersOnTeam = maxPlayersOnTeam - 1.0;
@@ -77,8 +79,8 @@ public class Team {
 	}
 
 	public void setDead(String name) {
-		dead.put(name, players.get(name));
-		players.remove(name);
+		this.dead.put(name, players.get(name));
+		this.players.remove(name);
 	}
 
 	public Participant getDead(String name) {

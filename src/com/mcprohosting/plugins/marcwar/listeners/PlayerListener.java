@@ -100,6 +100,10 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDisconnect(PlayerQuitEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+			TeamHandler.getPlayerTeam(event.getPlayer().getName()).removePlayer(event.getPlayer().getName());
+		}
+
 		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()) != null) {
 			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
 				TeamHandler.getPlayerTeam(event.getPlayer().getName()).removeDead(event.getPlayer().getName());
