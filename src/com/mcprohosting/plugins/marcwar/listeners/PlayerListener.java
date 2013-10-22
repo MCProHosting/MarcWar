@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
@@ -30,6 +31,9 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("started")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Game In Progress");
 		}
+		if (MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
+			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Game Is Restarting");
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -43,7 +47,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDeath(PlayerDeathEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.getEntity().setHealth(10.0);
 			return;
 		}
@@ -57,7 +61,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority =  EventPriority.NORMAL)
 	public void onBlockBreak(BlockBreakEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
 		}
@@ -93,7 +97,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onInventoryPickup(PlayerPickupItemEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
 		}
@@ -124,7 +128,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onInventoryDrop(PlayerDropItemEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
 		}
@@ -152,7 +156,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPlace(BlockPlaceEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
 		}
@@ -177,7 +181,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onMobTarget(EntityTargetLivingEntityEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
 		}
@@ -191,8 +195,8 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onDamageEvent(EntityDamageByEntityEvent event) {
-		if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+	public void onDamageByEntity(EntityDamageByEntityEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
 		}
@@ -203,6 +207,14 @@ public class PlayerListener implements Listener {
 			if (TeamHandler.getPlayerTeam((damager.getName())) == TeamHandler.getPlayerTeam(attacked.getName())) {
 				event.setCancelled(true);
 			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onDamage(EntityDamageEvent event) {
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
+			event.setCancelled(true);
+			return;
 		}
 	}
 }
