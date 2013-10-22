@@ -22,7 +22,7 @@ public class Game implements Runnable {
 
 			if (now.getTime() - lastMsg.getTime() > 20000L) {
 				lastMsg = now;
-				String message = FontFormat.BOLD + "A minimum of 10 players are required to start the game. Wating for more players...";
+				String message = FontFormat.BOLD + "A minimum of 10 players are required to start the game. Waiting for more players...";
 				Bukkit.broadcastMessage(FontFormat.GREEN + message);
 			}
 		} else {
