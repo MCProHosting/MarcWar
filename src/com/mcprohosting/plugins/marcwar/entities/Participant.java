@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class Participant {
 
@@ -52,7 +50,6 @@ public class Participant {
 
 		if (team.equalsIgnoreCase("blue")) {
 			inventory.setHelmet(new ItemStack(Material.WOOL, 1, (short) 11));
-			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60, 2));
 		} else {
 			inventory.setHelmet(new ItemStack(Material.WOOL, 1, (short) 14));
 		}

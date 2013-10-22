@@ -4,6 +4,8 @@ import com.mcprohosting.plugins.marcwar.MarcWar;
 import com.mcprohosting.plugins.marcwar.entities.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Date;
 
@@ -42,6 +44,7 @@ public class Game implements Runnable {
 						if (team.getColor().equalsIgnoreCase("blue")) {
 							String message = FontFormat.BOLD + "Storm the enemy castle, take their red wool flag, and place atop the diamond at home to win!";
 							player.sendMessage(FontFormat.BLUE + message);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60, 2));
 						} else {
 							String message = FontFormat.BOLD + "Close the gates! Protect the red wool flag at all cost! Route the enemy to win!";
 							player.sendMessage(FontFormat.RED + message);

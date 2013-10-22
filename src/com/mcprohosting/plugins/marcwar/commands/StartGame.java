@@ -10,6 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class StartGame implements CommandExecutor {
 	@Override
@@ -37,6 +39,7 @@ public class StartGame implements CommandExecutor {
 			if (team.getColor().equalsIgnoreCase("blue")) {
 				String message = FontFormat.BOLD + "Storm the enemy castle, take their red wool flag, and place atop the diamond at home to win!";
 				player.sendMessage(FontFormat.BLUE + message);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60, 2));
 			} else {
 				String message = FontFormat.BOLD + "Close the gates! Protect the red wool flag at all cost! Route the enemy to win!";
 				player.sendMessage(FontFormat.RED + message);
