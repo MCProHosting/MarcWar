@@ -1,9 +1,6 @@
 package com.mcprohosting.plugins.marcwar;
 
-import com.mcprohosting.plugins.marcwar.commands.SetCapture;
-import com.mcprohosting.plugins.marcwar.commands.SetFlag;
-import com.mcprohosting.plugins.marcwar.commands.SetLobby;
-import com.mcprohosting.plugins.marcwar.commands.SetSpawn;
+import com.mcprohosting.plugins.marcwar.commands.*;
 import com.mcprohosting.plugins.marcwar.listeners.PlayerListener;
 import com.mcprohosting.plugins.marcwar.utilities.Game;
 import com.mcprohosting.plugins.marcwar.utilities.LilyPadManager;
@@ -69,6 +66,7 @@ public class MarcWar extends JavaPlugin {
 		getCommand("setflag").setExecutor(new SetFlag());
 		getCommand("setcapture").setExecutor(new SetCapture());
 		getCommand("setlobby").setExecutor(new SetLobby());
+		getCommand("startgame").setExecutor(new StartGame());
 	}
 
 	public static String getGameProgress() {

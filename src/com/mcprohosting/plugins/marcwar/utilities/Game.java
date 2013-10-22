@@ -15,7 +15,7 @@ public class Game implements Runnable {
 
 	@Override
 	public void run() {
-		if (Bukkit.getOnlinePlayers().length < 2 && MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
+		if (Bukkit.getOnlinePlayers().length < 10 && MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
 			Date now = new Date();
 
 			if (now.getTime() - lastMsg.getTime() > 20000L) {
@@ -33,7 +33,7 @@ public class Game implements Runnable {
 
 				Date now = new Date();
 
-				if (now.getTime() - starting.getTime() > 1000 * 10) {
+				if (now.getTime() - starting.getTime() > 1000 * 60 * 2) {
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						MarcWar.setGameProgress("started");
 						Team team = TeamHandler.getPlayerTeam(player.getName());

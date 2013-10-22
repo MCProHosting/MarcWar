@@ -11,13 +11,16 @@ commands:
     description: Set one of the spawn locations for the teams to the current location of the player.
     usage: /<command> <color>
   setflag:
-    descriptions: Set the red team flag to the block a player is looking at.
+    description: Set the red team flag to the block a player is looking at.
     usage: /<command>
   setcapture:
-    descriptions: Set the blue team capture point to the 1 block above the block a player is looking at.
+    description: Set the blue team capture point to the 1 block above the block a player is looking at.
     usage: /<command>
   setlobby:
-    descriptions: Set the lobby
+    description: Set the lobby spawn.
+    usage: /<command>
+  startgame:
+    description: Start the game.
     usage: /<command>
 permissions:
   marcwar.*:
@@ -36,4 +39,7 @@ permissions:
     default: op
   marcwar.setlobby:
     description: Allow player to set the lobby
+    default: op
+  marcwar.startgame:
+    description: Allow player to start the game
     default: op
