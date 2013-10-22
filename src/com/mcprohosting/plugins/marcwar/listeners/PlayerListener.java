@@ -237,4 +237,9 @@ public class PlayerListener implements Listener {
 			event.setCancelled(true);
 		}
 	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onCreatureSpawn(CreatureSpawnEvent event) {
+		event.setCancelled(true);
+	}
 }
