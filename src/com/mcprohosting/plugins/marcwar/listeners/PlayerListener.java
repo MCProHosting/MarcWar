@@ -2,10 +2,7 @@ package com.mcprohosting.plugins.marcwar.listeners;
 
 import com.mcprohosting.plugins.marcwar.MarcWar;
 import com.mcprohosting.plugins.marcwar.entities.Team;
-import com.mcprohosting.plugins.marcwar.utilities.FlagReset;
-import com.mcprohosting.plugins.marcwar.utilities.FontFormat;
-import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
-import com.mcprohosting.plugins.marcwar.utilities.UtilityMethods;
+import com.mcprohosting.plugins.marcwar.utilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -54,7 +51,7 @@ public class PlayerListener implements Listener {
 		}
 
 		if (MarcWar.getProxyEnabled()) {
-			UtilityMethods.redirectToServer("lobby", event.getEntity());
+			LilyPadManager.redirectToServer("lobby", event.getEntity());
 		} else {
 			event.getEntity().kickPlayer("You have been eliminated from play!");
 		}

@@ -72,7 +72,7 @@ public class Game implements Runnable {
 				} else if (now.getTime() - lastMsg.getTime() > 30000L) {
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						if (MarcWar.getProxyEnabled()) {
-							UtilityMethods.redirectToServer("lobby", player);
+							LilyPadManager.redirectToServer("lobby", player);
 						} else {
 							player.kickPlayer("The game is restarting!");
 						}

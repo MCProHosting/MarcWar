@@ -6,8 +6,8 @@ import com.mcprohosting.plugins.marcwar.commands.SetLobby;
 import com.mcprohosting.plugins.marcwar.commands.SetSpawn;
 import com.mcprohosting.plugins.marcwar.listeners.PlayerListener;
 import com.mcprohosting.plugins.marcwar.utilities.Game;
+import com.mcprohosting.plugins.marcwar.utilities.LilyPadManager;
 import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
-import lilypad.client.connect.api.Connect;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MarcWar extends JavaPlugin {
 
 	private static Plugin plugin;
-	private static Connect connect;
 	private static String gameProgress;
 	private static boolean proxyEnabled;
 
@@ -46,7 +45,7 @@ public class MarcWar extends JavaPlugin {
 		// Proxy Registration
 		setProxyEnabled();
 		if (proxyEnabled) {
-			connect = plugin.getServer().getServicesManager().getRegistration(Connect.class).getProvider();
+			new LilyPadManager();
 		}
 
 		// Start the game
@@ -59,10 +58,6 @@ public class MarcWar extends JavaPlugin {
 
 	public static Plugin getPlugin() {
 		return plugin;
-	}
-
-	public static Connect getConnect() {
-		return connect;
 	}
 
 	public void registerListeners() {
