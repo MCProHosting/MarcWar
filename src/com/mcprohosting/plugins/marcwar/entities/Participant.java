@@ -11,11 +11,13 @@ public class Participant {
 	private String name;
 	private String team;
 	private boolean hasFlag;
+	private boolean isSpectating;
 
 	public Participant(String name, String team) {
 		this.name = name;
 		this.team = team;
 		this.hasFlag = false;
+		this.isSpectating = false;
 
 		this.setInventory();
 	}
@@ -53,6 +55,14 @@ public class Participant {
 		} else {
 			inventory.setHelmet(new ItemStack(Material.WOOL, 1, (short) 14));
 		}
+	}
+
+	public void setSpectating() {
+		isSpectating = true;
+	}
+
+	public boolean isSpectating() {
+		return isSpectating;
 	}
 
 }

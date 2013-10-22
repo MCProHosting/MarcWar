@@ -14,11 +14,13 @@ public class Team {
 	Location spawn;
 	Location flag;
 	Map<String, Participant> players;
+	Map<String, Participant> dead;
 	double maxPlayersOnTeam;
 
 	public Team(String color) {
 		this.color = color;
 		this.players = new HashMap<String, Participant>();
+		this.dead = new HashMap<String, Participant>();
 	}
 
 	public String getColor() {
@@ -72,6 +74,19 @@ public class Team {
 			return true;
 		}
 		return false;
+	}
+
+	public void setDead(String name) {
+		dead.put(name, players.get(name));
+		players.remove(name);
+	}
+
+	public Participant getDead(String name) {
+		return dead.get(name);
+	}
+
+	public void removeDead(String name) {
+		dead.remove(name);
 	}
 
 }

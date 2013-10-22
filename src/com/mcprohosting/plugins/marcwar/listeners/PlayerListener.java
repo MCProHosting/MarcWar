@@ -49,7 +49,12 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getProxyEnabled()) {
 			LilyPadManager.redirectToServer("lobby", event.getEntity());
 		} else {
+			for (Player players : Bukkit.getOnlinePlayers()) {
+				players.hidePlayer(event.getEntity());
+			}
+			event.getEntity().setFlying(true);
 			event.getEntity().kickPlayer("You have been eliminated from play!");
+			TeamHandler.getPlayerTeam(event.getEntity().getName()).setDead(event.getEntity().getName());
 		}
 	}
 
@@ -58,6 +63,13 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
+		}
+
+		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
 		}
 
 		Team playerTeam = TeamHandler.getPlayerTeam(event.getPlayer().getName());
@@ -85,7 +97,9 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onDisconnect(PlayerQuitEvent event) {
 		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()) != null) {
-			TeamHandler.getPlayerTeam(event.getPlayer().getName()).removePlayer(event.getPlayer().getName());
+			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
+				TeamHandler.getPlayerTeam(event.getPlayer().getName()).removeDead(event.getPlayer().getName());
+			}
 		}
 	}
 
@@ -94,6 +108,13 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
+		}
+
+		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
 		}
 
 		Player player = event.getPlayer();
@@ -127,6 +148,13 @@ public class PlayerListener implements Listener {
 			return;
 		}
 
+		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
+		}
+
 		Player player = event.getPlayer();
 		Team playerTeam = TeamHandler.getPlayerTeam(player.getName());
 
@@ -153,6 +181,13 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
+		}
+
+		if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getPlayer().getName()).getDead(event.getPlayer().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
 		}
 
 		Team team = TeamHandler.getPlayerTeam(event.getPlayer().getName());
@@ -210,23 +245,36 @@ public class PlayerListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
+
+		Player player = (Player) event.getEntity();
+
+		if (TeamHandler.getPlayerTeam(player.getName()).getDead(player.getName()) != null) {
+			if (TeamHandler.getPlayerTeam(player.getName()).getDead(player.getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onInventoryInteract(InventoryClickEvent event) {
-		if (event.getCurrentItem().getType() != null) {
-			ItemStack stack = event.getCurrentItem();
-			ItemMeta meta = stack.getItemMeta();
+		ItemStack stack = event.getCurrentItem();
+		ItemMeta meta = stack.getItemMeta();
 
-			if (event.getCurrentItem().getType().equals(Material.WOOL)) {
-				if (meta != null) {
-					if (meta.getDisplayName() != null) {
-						if (meta.getDisplayName().equalsIgnoreCase("flag")) {
-							return;
-						}
+		if (TeamHandler.getPlayerTeam(event.getWhoClicked().getName()).getDead(event.getWhoClicked().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getWhoClicked().getName()).getDead(event.getWhoClicked().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
+		}
+
+		if (event.getCurrentItem().getType().equals(Material.WOOL)) {
+			if (meta != null) {
+				if (meta.getDisplayName() != null) {
+					if (meta.getDisplayName().equalsIgnoreCase("flag")) {
+						return;
 					}
 				}
-				event.setCancelled(true);
 			}
 		}
 	}
@@ -236,10 +284,22 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 		}
+
+		if (TeamHandler.getPlayerTeam(event.getEntity().getName()).getDead(event.getEntity().getName()) != null) {
+			if (TeamHandler.getPlayerTeam(event.getEntity().getName()).getDead(event.getEntity().getName()).isSpectating()) {
+				event.setCancelled(true);
+				return;
+			}
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
+		event.setCancelled(true);
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerInteract(PlayerInteractEvent event) {
 		event.setCancelled(true);
 	}
 }

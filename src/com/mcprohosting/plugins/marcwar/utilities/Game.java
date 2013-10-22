@@ -28,14 +28,14 @@ public class Game implements Runnable {
 		} else {
 			if (MarcWar.getGameProgress().equalsIgnoreCase("starting")) {
 				if (starting == null) {
-					String message = FontFormat.BOLD + "Minimum number of players reached, game starting in 2 minutes.";
+					String message = FontFormat.BOLD + "Minimum number of players reached, game starting in 5 minutes.";
 					Bukkit.broadcastMessage(FontFormat.GREEN + message);
 					starting = new Date();
 				}
 
 				Date now = new Date();
 
-				if (now.getTime() - starting.getTime() > 1000 * 60 * 2) {
+				if (now.getTime() - starting.getTime() > 1000 * 60 * 5) {
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						MarcWar.setGameProgress("started");
 						Team team = TeamHandler.getPlayerTeam(player.getName());
