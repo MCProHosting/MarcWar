@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -215,6 +216,13 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onInventoryInteract(InventoryClickEvent event) {
+		if (event.getCurrentItem().getType().equals(Material.WOOL)) {
+			event.setCancelled(true);
 		}
 	}
 }
