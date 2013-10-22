@@ -52,9 +52,14 @@ public class PlayerListener implements Listener {
 			for (Player players : Bukkit.getOnlinePlayers()) {
 				players.hidePlayer(event.getEntity());
 			}
+			event.getEntity().setHealth(10.0);
+			event.getEntity().setAllowFlight(true);
 			event.getEntity().setFlying(true);
-			event.getEntity().kickPlayer("You have been eliminated from play!");
 			TeamHandler.getPlayerTeam(event.getEntity().getName()).setDead(event.getEntity().getName());
+			if (!(TeamHandler.getLobby().getBlockY() == 0)) {
+				event.getEntity().teleport(TeamHandler.getLobby());
+			}
+			return;
 		}
 	}
 
@@ -233,6 +238,12 @@ public class PlayerListener implements Listener {
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
 			Player damager = (Player) event.getDamager();
 			Player attacked = (Player) event.getEntity();
+
+			if (TeamHandler.getPlayerTeam(damager.getName()).getDead(damager.getName()) != null) {
+				if (TeamHandler.getPlayerTeam(damager.getName()).getDead(damager.getName()).isSpectating()) {
+					event.setCancelled(true);
+				}
+			}
 			if (TeamHandler.getPlayerTeam((damager.getName())) == TeamHandler.getPlayerTeam(attacked.getName())) {
 				event.setCancelled(true);
 			}
@@ -244,15 +255,6 @@ public class PlayerListener implements Listener {
 		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
 			event.setCancelled(true);
 			return;
-		}
-
-		Player player = (Player) event.getEntity();
-
-		if (TeamHandler.getPlayerTeam(player.getName()).getDead(player.getName()) != null) {
-			if (TeamHandler.getPlayerTeam(player.getName()).getDead(player.getName()).isSpectating()) {
-				event.setCancelled(true);
-				return;
-			}
 		}
 	}
 
@@ -300,6 +302,8 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		event.setCancelled(true);
+		if (MarcWar.getGameProgress().equalsIgnoreCase("starting") || MarcWar.getGameProgress().equalsIgnoreCase("gameover")) {
+			event.setCancelled(true);
+		}
 	}
 }
