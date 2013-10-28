@@ -2,6 +2,8 @@ package com.mcprohosting.plugins.marcwar.utilities;
 
 import com.mcprohosting.plugins.marcwar.MarcWar;
 import com.mcprohosting.plugins.marcwar.entities.Team;
+import com.mcprohosting.plugins.marcwar.utilities.proxy.BungeeCordManager;
+import com.mcprohosting.plugins.marcwar.utilities.proxy.LilyPadManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -74,14 +76,16 @@ public class Game implements Runnable {
 					gameOver = !gameOver;
 				} else if (now.getTime() - lastMsg.getTime() > 30000L) {
 					for (Player player : Bukkit.getOnlinePlayers()) {
-						if (MarcWar.getProxyEnabled()) {
-							LilyPadManager.redirectToServer("lobby", player);
+						if (MarcWar.getProxyMode().equalsIgnoreCase("LilyPad")) {
+							LilyPadManager.redirectToServer(MarcWar.getReturnServer(), player);
+						} else if (MarcWar.getProxyMode().equalsIgnoreCase("BungeeCord")) {
+							BungeeCordManager.redirectToServer(MarcWar.getReturnServer(), player);
 						} else {
 							player.kickPlayer("The game is restarting!");
 						}
 					}
 
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+					Bukkit.getScheduler().runTaskLater(MarcWar.getPlugin(), new Shutdown(), 20 * 5);
 				}
 			}
 		}

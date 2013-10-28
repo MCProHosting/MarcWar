@@ -2,7 +2,10 @@ package com.mcprohosting.plugins.marcwar.listeners;
 
 import com.mcprohosting.plugins.marcwar.MarcWar;
 import com.mcprohosting.plugins.marcwar.entities.Team;
-import com.mcprohosting.plugins.marcwar.utilities.*;
+import com.mcprohosting.plugins.marcwar.utilities.FlagReset;
+import com.mcprohosting.plugins.marcwar.utilities.FontFormat;
+import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
+import com.mcprohosting.plugins.marcwar.utilities.UtilityMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,20 +49,17 @@ public class PlayerListener implements Listener {
 			return;
 		}
 
-		if (MarcWar.getProxyEnabled()) {
-			LilyPadManager.redirectToServer("lobby", event.getEntity());
-		} else {
-			for (Player players : Bukkit.getOnlinePlayers()) {
-				players.hidePlayer(event.getEntity());
-			}
-			event.getEntity().setAllowFlight(true);
-			event.getEntity().setFlying(true);
-			TeamHandler.getPlayerTeam(event.getEntity().getName()).setDead(event.getEntity().getName());
-			if (!(TeamHandler.getLobby().getBlockY() == 0)) {
-				event.getEntity().teleport(TeamHandler.getLobby());
-			}
-			return;
+		for (Player players : Bukkit.getOnlinePlayers()) {
+			players.hidePlayer(event.getEntity());
 		}
+		event.getEntity().setAllowFlight(true);
+		event.getEntity().setFlying(true);
+		TeamHandler.getPlayerTeam(event.getEntity().getName()).setDead(event.getEntity().getName());
+		if (!(TeamHandler.getLobby().getBlockY() == 0)) {
+			event.getEntity().teleport(TeamHandler.getLobby());
+		}
+
+		return;
 	}
 
 	@EventHandler(priority =  EventPriority.NORMAL)

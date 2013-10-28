@@ -33,4 +33,5 @@ capture:
 
 #Manage the proxy settings:
 proxy:
-  enabled: false
+  mode: "None"
+  server: "Lobby"

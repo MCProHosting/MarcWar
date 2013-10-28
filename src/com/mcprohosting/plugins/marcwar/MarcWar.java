@@ -3,8 +3,9 @@ package com.mcprohosting.plugins.marcwar;
 import com.mcprohosting.plugins.marcwar.commands.*;
 import com.mcprohosting.plugins.marcwar.listeners.PlayerListener;
 import com.mcprohosting.plugins.marcwar.utilities.Game;
-import com.mcprohosting.plugins.marcwar.utilities.LilyPadManager;
 import com.mcprohosting.plugins.marcwar.utilities.TeamHandler;
+import com.mcprohosting.plugins.marcwar.utilities.proxy.BungeeCordManager;
+import com.mcprohosting.plugins.marcwar.utilities.proxy.LilyPadManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,7 +16,8 @@ public class MarcWar extends JavaPlugin {
 
 	private static Plugin plugin;
 	private static String gameProgress;
-	private static boolean proxyEnabled;
+	private static String proxyMode;
+	private static String returnServer;
 
 	public void onEnable() {
 		// Allow this to be accessed statically
@@ -40,9 +42,17 @@ public class MarcWar extends JavaPlugin {
 		registerCommands();
 
 		// Proxy Registration
-		setProxyEnabled();
-		if (proxyEnabled) {
-			new LilyPadManager();
+		setProxyMode();
+		switch (proxyMode.toLowerCase()) {
+			case "bungeecord":
+				Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+				new BungeeCordManager();
+				break;
+			case "lilypad":
+				new LilyPadManager();
+				break;
+			default:
+				break;
 		}
 
 		// Start the game
@@ -77,22 +87,28 @@ public class MarcWar extends JavaPlugin {
 		gameProgress = status;
 	}
 
-	private void setProxyEnabled() {
-		saveProxyToConfig();
+	private void setProxyMode() {
 		ConfigurationSection proxy = getConfig().getConfigurationSection("proxy");
-		proxyEnabled = proxy.getBoolean("enabled");
+		proxyMode = proxy.getString("mode");
+		returnServer = proxy.getString("server");
+		saveProxyToConfig();
 	}
 
 	public void saveProxyToConfig() {
 		ConfigurationSection section = new YamlConfiguration();
-		section.set("enabled", getProxyEnabled());
+		section.set("mode", getProxyMode());
+		section.set("server", getReturnServer());
 
 		MarcWar.getPlugin().getConfig().set("proxy", section);
 		MarcWar.getPlugin().saveConfig();
 	}
 
-	public static boolean getProxyEnabled() {
-		return proxyEnabled;
+	public static String getProxyMode() {
+		return proxyMode;
+	}
+
+	public static String getReturnServer() {
+		return returnServer;
 	}
 
 }

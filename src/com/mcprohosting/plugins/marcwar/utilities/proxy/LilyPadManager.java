@@ -1,4 +1,4 @@
-package com.mcprohosting.plugins.marcwar.utilities;
+package com.mcprohosting.plugins.marcwar.utilities.proxy;
 
 import com.mcprohosting.plugins.marcwar.MarcWar;
 import lilypad.client.connect.api.Connect;
@@ -19,11 +19,11 @@ public class LilyPadManager {
 		init();
 	}
 
-	public static void init() {
+	private void init() {
 		connect = MarcWar.getPlugin().getServer().getServicesManager().getRegistration(Connect.class).getProvider();
 	}
 
-	public static Connect getConnect() {
+	private static Connect getConnect() {
 		return connect;
 	}
 
