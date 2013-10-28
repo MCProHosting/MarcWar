@@ -28,6 +28,9 @@ permissions:
     children:
       marcwar.setspawn: true
       marcwar.setflag: true
+      marcwar.setcapture: true
+      marcwar.setlobby: true
+      marcwar.startgame: true
   marcwar.setspawn:
     description: Allow player to set the spawn for each team
     default: op
