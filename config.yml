@@ -31,14 +31,6 @@ capture:
   y: 0
   z: 0
 
-#Manage the database settings:
-database:
-  host: "localhost"
-  port: 3306
-  database: "minecraft"
-  username: "admin"
-  password: "1234"
-
 #Manage the proxy settings:
 proxy:
   enabled: false
