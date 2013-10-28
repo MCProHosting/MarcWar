@@ -8,7 +8,7 @@ database: false
 
 commands:
   setspawn:
-    description: Set one of the spawn locations for the teams to the current location of the player.
+    description: Set one of the spawn locations for the blue or red team to the current location of the player.
     usage: /<command> <color>
   setflag:
     description: Set the red team flag to the block a player is looking at.
